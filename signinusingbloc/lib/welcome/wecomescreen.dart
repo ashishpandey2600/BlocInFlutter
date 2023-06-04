@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:signinusingbloc/signin/Signinpage.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({super.key});
@@ -12,16 +13,38 @@ class _WelcomeState extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(children: [
-        Center(
-          child: Text("Welcome"),
-        ),
-        CupertinoButton(child: Text("Signed In"), onPressed: () {}),
-        SizedBox(
-          height: 10,
-        ),
-        CupertinoButton(child: Text("Sign in with google"), onPressed: () {})
-      ]),
-    );
+        body: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Center(
+                child: Text(
+                  "Welcome",
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              CupertinoButton(
+                child: Text("Signed In with email"),
+                onPressed: () {
+                  Navigator.push(context,
+                      CupertinoPageRoute(builder: (context) => Signpage()));
+                },
+                color: Colors.blue,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              CupertinoButton(
+                child: Text("Sign in with google"),
+                onPressed: () {},
+                color: Colors.blue,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+            ]));
   }
 }
