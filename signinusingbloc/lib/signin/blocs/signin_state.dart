@@ -1,14 +1,14 @@
-abstract class SignInstate {}
+abstract class SignInState {}
 
-class SIgnInInvalidState extends SignInstate {}
+class SignInInvalidState extends SignInState {}
 
-class SignInInitialState extends SignInstate {}
+class SignInInitialState extends SignInState {}
 
-class SignValidState extends SignInstate {}
+class SignValidState extends SignInState {}
 
-class SignInErrorState extends SignInstate {
+class SignInErrorState extends SignInState {
   final String errorMessage;
   SignInErrorState(this.errorMessage);
 }
 
-class SignInLoadingState extends SignInstate{}
+class SignInLoadingState extends SignInState{}

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:signinusingbloc/signin/blocs/sign_bloc.dart';
 import 'package:signinusingbloc/welcome/wecomescreen.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -15,9 +18,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-    debugShowCheckedModeBanner: false,
-      home: Welcome(),
+    return  BlocProvider(
+      create: (context) => SignInBloc(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Welcome(),
+      ),
     );
   }
 }

@@ -1,5 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:signinusingbloc/signin/blocs/sign_bloc.dart';
+import 'package:signinusingbloc/signin/blocs/signin_event.dart';
+
+import 'blocs/signin_state.dart';
 
 class Signpage extends StatefulWidget {
   const Signpage({super.key});
@@ -23,14 +28,27 @@ class _SignpageState extends State<Signpage> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                Text(
-                  "Error wolll show up",
-                  style: TextStyle(color: Colors.red),
+                BlocBuilder<SignInBloc, SignInState>(
+                  builder: (context, state) {
+                    if (state is SignInErrorState) {
+                      return Text(
+                        state.errorMessage,
+                        style: TextStyle(color: Colors.red),
+                      );
+                    } else {
+                      return Container();
+                    }
+                  },
                 ),
                 SizedBox(
                   height: 12,
                 ),
                 TextFormField(
+                  onChanged: (val) {
+                    BlocProvider.of<SignInBloc>(context).add(
+                        SignInTExtChangeEvent(emailcontroller.text.trim(),
+                            passwordcontroller.text.trim()));
+                  },
                   controller: emailcontroller,
                   decoration: InputDecoration(
                       label: Text("Email"),
@@ -41,6 +59,11 @@ class _SignpageState extends State<Signpage> {
                   height: 12,
                 ),
                 TextFormField(
+                  onChanged: (val) {
+                    BlocProvider.of<SignInBloc>(context).add(
+                        SignInTExtChangeEvent(emailcontroller.text.trim(),
+                            passwordcontroller.text.trim()));
+                  },
                   obscureText: true,
                   controller: passwordcontroller,
                   decoration: InputDecoration(
@@ -51,10 +74,24 @@ class _SignpageState extends State<Signpage> {
                 SizedBox(
                   height: 12,
                 ),
-                CupertinoButton(
-                  child: Text("Login"),
-                  onPressed: () {},
-                  color: Colors.blue,
+                BlocBuilder<SignInBloc, SignInState>(
+                  builder: (context, state) {
+                    if (state is SignInLoadingState) {
+                      return CircularProgressIndicator();
+                    }
+                    return CupertinoButton(
+                      onPressed: () {
+                        if (state is SignValidState) {
+                          BlocProvider.of<SignInBloc>(context).add(
+                              SignInSubmittedEvent(emailcontroller.text.trim(),
+                                  passwordcontroller.text.trim()));
+                        }
+                      },
+                      color:
+                          (state is SignValidState) ? Colors.blue : Colors.grey,
+                      child: Text("Login"),
+                    );
+                  },
                 )
               ],
             ),
